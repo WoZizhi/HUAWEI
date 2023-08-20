@@ -1,0 +1,139 @@
+set nocompatible              " be iMproved, required
+set tabstop=4
+set number
+set autoindent
+set cindent
+set hidden					  " Turn off buffer switching confirmation
+set confirm					  " Ask whether to save changes
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+set helplang=cn	    "help doc in chinese
+""set hlsearch	    "highlight the word in search
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+"Plugin 'file:///home/gmarik/path/to/plugin'"
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+" All of your Plugins must be added before the following line
+Plugin 'scrooloose/nerdtree'
+Plugin 'luochen1990/rainbow'
+Plugin 'Yggdroot/indentLine'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'yianwillis/vimcdoc'
+Plugin 'preservim/tagbar'
+Plugin 'kien/ctrlp.vim'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+" filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+"NERDTree config
+"F1 open; q quit
+map <F1> :NERDTree<cr>
+"delete buffer and toggle
+nnoremap <C-x> :bdelete \| bnext<cr>
+
+"rainbow config
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+
+"onedark config
+if (empty($TMUX))
+  if (has("nvim"))
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+endif
+syntax on
+colorscheme onedark
+
+"indentLine config
+set list lcs=tab:\|\-
+let g:indentLine_setColors = 0
+let g:indentLine_enabled = 1 
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+"let g:indentLine_color_term = 239
+
+"vim-airline config
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = '|'
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = '|'
+let g:airline_symbols.branch = ''
+let g:airline_symbols.colnr = 'C:'
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ' L:'
+let g:airline_symbols.maxlinenr = '☰ '
+let g:airline_symbols.dirty='⚡'
+
+"YouCompleteMe config
+let g:ycm_complete_in_strings = 1
+let g:ycm_seed_identifiers_with_syntax = 1
+let g:ycm_semantic_triggers =  {
+			\ 'c,cpp,python,java,go,erlang,perl': ['re!\w{2}'],
+			\ 'cs,lua,javascript': ['re!\w{2}'],
+			\ }
+nnoremap <C-a> :YcmCompleter GoToDefinitionElseDeclaration<CR>
+nnoremap <C-s> :YcmDiags<CR>
+inoremap ( ()<ESC>i
+inoremap [ []<ESC>i
+inoremap { {}<ESC>i
+inoremap ' ''<ESC>i
+inoremap " ""<ESC>i
+
+" tagbar config
+nmap <F8> :TagbarToggle<cr>
+
+" switching Window
+nmap <Tab> :bn<cr>
+nmap <C-Right> <C-w>l
+nmap <C-Left> <C-w>h
+nmap <C-Up> <C-w>k
+nmap <C-Down> <C-w>j
+nmap <C-z> <C-w>q
+
+" CTRLP config
+let g:ctrlp_map = '<C-p>'
+let g:ctrlp_by_filename = 1 " Set default to use filename matching mode
+" <C-f>\<C-b> cycle between modes
+" <C-d> switch to filename search instead of full path
